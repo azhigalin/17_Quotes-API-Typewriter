@@ -1,8 +1,10 @@
-let quoteArray = [];
-let index = 0;
-let textPosition = 0;
-let flag = true;
-let destination = document.querySelector("#typedtext");
+let options = {
+  quoteArray: [],
+  index: 0,
+  textPosition: 0,
+  flag: true,
+  destination: document.querySelector("#typedtext"),
+};
 
 window.addEventListener("load", typeWrirer);
 
@@ -19,26 +21,27 @@ function loadQuote() {
     })
 
     .then((data) => {
-      quoteArray[index] = data.content;
+      options.quoteArray[options.index] = data.content;
     });
 }
 
 function typeWrirer() {
-  if (flag) {
+  if (options.flag) {
     loadQuote();
-    quoteArray[index] += " ";
-    flag = false;
+    options.quoteArray[options.index] += " ";
+    options.flag = false;
   }
 
-  destination.innerHTML =
-    quoteArray[index].substring(0, textPosition) + "<span>\u25AE</span>";
+  options.destination.innerHTML =
+    options.quoteArray[options.index].substring(0, options.textPosition) +
+    "<span>\u25AE</span>";
 
-  if (textPosition++ != quoteArray[index].length) {
+  if (options.textPosition++ != options.quoteArray[options.index].length) {
     setTimeout("typeWrirer()", 100);
   } else {
-    quoteArray[index] = " ";
+    options.quoteArray[options.index] = " ";
     setTimeout("typeWrirer()", 3000);
-    textPosition = 0;
-    flag = true;
+    options.textPosition = 0;
+    options.flag = true;
   }
 }
